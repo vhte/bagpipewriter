@@ -1,4 +1,5 @@
-/** Class of BagpipeWriter representing the object that will manage Bagpipe Player symbols (using jsdoc) */
+/** Class of BagpipeWriter representing the object that will manage Bagpipe Player symbols (using jsdoc)
+ * This class works as a controller */
 class BagpipeWriter {
 	/**
 	 * Set the file to manage
