@@ -20,5 +20,18 @@ class Note {
 			throw "Note " + this.note + " not found!";
 	}
 	
+	getNote() {
+		return this.note;
+	}
+	setNote(value) {
+		this.note = value.toUppercase();
+	}
+	
+	getTime() {
+		return this.time;
+	}
+	setTime(value) {
+		this.time = value;
+	}
 	
 }
