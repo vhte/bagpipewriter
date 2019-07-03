@@ -1,16 +1,16 @@
 /** Note class */
-class Note {
+export class Note {
 	constructor(name, time) {
-		const LowA = "LA";
-		const LowG = "LG";
+		const LOWA = "LA";
+		const LOWG = "LG";
 		const B = "B";
 		const C = "C";
 		const D = "D";
 		const E = "E";
 		const F = "G";
-		const HighG = "HG";
-		const HighA = "HA";
-		const allNotes = [LowA, LowG, B, C, D, E, F, HighG, HighA];
+		const HIGHG = "HG";
+		const HIGHA = "HA";
+		const allNotes = [LOWA, LOWG, B, C, D, E, F, HIGHG, HIGHA];
 		
 		this.note = name.toUppercase();
 		this.time = time;
