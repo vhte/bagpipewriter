@@ -2,17 +2,17 @@
  * Tune class with the piece properties
  */
 export class Tune {
-	constructor(name, tempo, author) {
+	constructor(name, time, author) {
 		this.name = name;
-		this.tempo = tempo;
+		this.time = time; // 3/4
 		this.author = author;
 	}
 	
-	getTempo() {
-		return this.tempo;
+	getTime() {
+		return this.time;
 	}
-	setTempo(value) {
-		this.tempo = value;
+	setTime(value) {
+		this.time = value;
 	}
 	
 	getName() {
