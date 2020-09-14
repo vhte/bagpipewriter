@@ -4,7 +4,7 @@ from tkinter import filedialog, messagebox
 
 
 class Application(tk.Frame):
-    APP_HEIGHT = 300
+    APP_HEIGHT = 400
     APP_WIDTH = 300
     def __init__(self, master=None):
         super().__init__(master)
@@ -28,11 +28,6 @@ class Application(tk.Frame):
 
     def create_widgets(self):
         # https://realpython.com/python-gui-tkinter/
-        """
-        self.hi_there = tk.Button(self, text="Hello World\n(click me)", command=self.say_hi, width=15)
-        self.hi_there.place(relx=0, rely=0)
-        self.hi_there.pack(side="left")
-        """
 
         self.filename_label = tk.Label(self)
         self.filename_label["text"] = "Current selected file: "
@@ -43,12 +38,6 @@ class Application(tk.Frame):
         self.filename["text"] = "No .bww selected"
         #self.filename.place(x=0, y=0)
         self.filename.pack(side="left")
-
-
-
-
-
-
 
 
         frame1 = tk.Frame(master=self._master, height=100, bg="red")
@@ -71,6 +60,50 @@ class Application(tk.Frame):
         quit_button = tk.Button(master=frame2, text="QUIT", fg="red", command=self.confirm_destroy)
         quit_button.place(relx=100, rely=10)
         quit_button.pack(fill=tk.X)
+
+        file_change_actions = [
+            {
+                "label": "Toggle embellishments",
+                "action": ""
+            },
+            {
+                "label": "Toggle repetition",
+                "action": ""
+            },
+            {
+                "label": "Up all notes",
+                "action": ""
+            },
+            {
+                "label": "Down all notes",
+                "action": ""
+            },
+            {
+                "label": "Change tempo",
+                "action": ""
+            },
+            {
+                "label": "Replace all embellishments",
+                "action": ""
+            }
+        ]
+
+        for i in range(3):
+            self.columnconfigure(i, weight=1, minsize=75)
+            self.rowconfigure(i, weight=1, minsize=50)
+            frame = tk.Frame(
+                master=self._master,
+                relief=tk.RAISED,
+                borderwidth=0
+            )
+            
+            for j in range(0, 3):
+
+                # frame.grid(row=i, column=j, padx=5, pady=5)
+
+                label = tk.Button(master=frame, text=f"Row {i}\nColumn {j}")
+                label.pack(padx=5, pady=5, side=tk.LEFT)
+            frame.pack(padx=5, pady=5)
 
 
     def upload_file(self):
