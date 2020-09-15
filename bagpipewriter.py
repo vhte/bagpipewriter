@@ -5,7 +5,7 @@ from tkinter import filedialog, messagebox
 
 class Application(tk.Frame):
     APP_HEIGHT = 400
-    APP_WIDTH = 300
+    APP_WIDTH = 450
     def __init__(self, master=None):
         super().__init__(master)
 
@@ -57,17 +57,21 @@ class Application(tk.Frame):
         # .save_button.place(relx=100, rely=100)
         self.save_button.pack(fill=tk.X)
 
+        run_button = tk.Button(master=frame2, state=tk.DISABLED)
+        run_button["text"] = "Run"
+        run_button.pack(fill=tk.X)
+
         quit_button = tk.Button(master=frame2, text="QUIT", fg="red", command=self.confirm_destroy)
         quit_button.place(relx=100, rely=10)
         quit_button.pack(fill=tk.X)
 
         file_change_actions = [
             {
-                "label": "Toggle embellishments",
+                "label": "Toggle\nembellishments",
                 "action": ""
             },
             {
-                "label": "Toggle repetition",
+                "label": "Toggle\nrepetition",
                 "action": ""
             },
             {
@@ -83,27 +87,25 @@ class Application(tk.Frame):
                 "action": ""
             },
             {
-                "label": "Replace all embellishments",
+                "label": "Replace all\nembellishments",
                 "action": ""
             }
         ]
 
-        for i in range(3):
-            self.columnconfigure(i, weight=1, minsize=75)
-            self.rowconfigure(i, weight=1, minsize=50)
-            frame = tk.Frame(
-                master=self._master,
-                relief=tk.RAISED,
-                borderwidth=0
-            )
-            
-            for j in range(0, 3):
+        i = 3
+        for action in file_change_actions:
+            if i == 3:
+                frame = tk.Frame(
+                    master=self._master,
+                    relief=tk.RAISED,
+                    borderwidth=0
+                )
+                frame.pack(padx=5, pady=5)
+                i = 0
 
-                # frame.grid(row=i, column=j, padx=5, pady=5)
-
-                label = tk.Button(master=frame, text=f"Row {i}\nColumn {j}")
-                label.pack(padx=5, pady=5, side=tk.LEFT)
-            frame.pack(padx=5, pady=5)
+            label = tk.Button(master=frame, text=action["label"], command=action["action"])
+            label.pack(padx=5, pady=5, side=tk.LEFT)
+            i += 1
 
 
     def upload_file(self):
