@@ -2,7 +2,10 @@ import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-
+"""
+TODO
+Separate UI control from .bww manager (_content goes in)
+"""
 class Application(tk.Frame):
     APP_HEIGHT = 400
     APP_WIDTH = 450
@@ -57,9 +60,9 @@ class Application(tk.Frame):
         # .save_button.place(relx=100, rely=100)
         self.save_button.pack(fill=tk.X)
 
-        run_button = tk.Button(master=frame2, state=tk.DISABLED)
-        run_button["text"] = "Run"
-        run_button.pack(fill=tk.X)
+        self.run_button = tk.Button(master=frame2, state=tk.DISABLED)
+        self.run_button["text"] = "Run"
+        self.run_button.pack(fill=tk.X)
 
         quit_button = tk.Button(master=frame2, text="QUIT", fg="red", command=self.confirm_destroy)
         quit_button.place(relx=100, rely=10)
@@ -107,13 +110,13 @@ class Application(tk.Frame):
             label.pack(padx=5, pady=5, side=tk.LEFT)
             i += 1
 
-
     def upload_file(self):
         file = filedialog.askopenfile(mode="r", filetypes=[('Bagpipe Player Files', "*.bww")])
         if file is not None:
             self.filename["text"] = os.path.basename(file.name)
             content = file.read()
             self.save_button["state"] = tk.NORMAL
+            self.run_button["state"] = tk.NORMAL
             print(content)
         else:
             print("Nothing selected")
