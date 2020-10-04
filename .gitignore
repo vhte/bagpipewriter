@@ -110,3 +110,4 @@ venv.bak/
 api.key
 tests/.pytest_cache
 dummy.py
+tmp.bww
