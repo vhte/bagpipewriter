@@ -33,10 +33,16 @@ class BagpipeWriter:
 
         start = tune_tempo + len(self.TUNE_TEMPO)
 
-        # TODO regex?
+        # TODO regex
         return int(self._score[start:].split(",")[1].rsplit("\n")[0])
 
-    def new_file(self):
+    @tempo.setter
+    def tempo(self, value):
+        # TODO regex
+        pattern = "TuneTempo,{}"
+        self._score = self._score.replace(pattern.format(str(self.tempo)), pattern.format(value))
+
+    def save_tmp_file(self):
         if not self._filename or not self._score:
             raise ValueError("No filename or score set.")
 
