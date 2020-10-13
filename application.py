@@ -27,7 +27,7 @@ class Application(tkinter.Frame):
         self.create_widgets()
 
         photo = tkinter.PhotoImage(file=self._base_folder + "favicon.png")
-        self.master.iconphoto(False, photo)
+        self.master.iconphoto(True, photo)
 
         self.winfo_toplevel().title("Bagpipe Writer")
 
@@ -137,8 +137,11 @@ class Application(tkinter.Frame):
             self._bagpipe_writer.save_tmp_file()
 
     def confirm_quit(self):
-        answer = messagebox.askokcancel("Quit", "Are you sure you want to exit the application?\nAll unsaved data will be lost.", icon="warning")
-        if answer:
+        if self._original_score:
+            answer = messagebox.askokcancel("Quit", "Leave application?\nAll unsaved data will be lost.", icon="warning")
+            if answer:
+                self.master.destroy()
+        else:
             self.master.destroy()
 
     def change_tempo(self):

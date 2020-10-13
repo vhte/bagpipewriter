@@ -1,4 +1,5 @@
 import os
+import re
 
 
 class BagpipeWriter:
@@ -27,20 +28,15 @@ class BagpipeWriter:
 
     @property
     def tempo(self):
-        tune_tempo = self._score.find(self.TUNE_TEMPO)
-        if tune_tempo == -1:
-            raise IndexError("No {} was found in the file.".format(self.TUNE_TEMPO))
-
-        start = tune_tempo + len(self.TUNE_TEMPO)
-
-        # TODO regex
-        return int(self._score[start:].split(",")[1].rsplit("\n")[0])
+        tempo = re.findall(r"TuneTempo[\s]*,[\s]*(?P<tempo>[\d]+)", self._score)
+        if tempo:
+            return int(tempo[0])
+        raise ValueError("Couldn't find {} in loaded score.".format(self.TUNE_TEMPO))
 
     @tempo.setter
     def tempo(self, value):
-        # TODO regex
-        pattern = "TuneTempo,{}"
-        self._score = self._score.replace(pattern.format(str(self.tempo)), pattern.format(value))
+        pattern = re.compile(r"TuneTempo[\s]*,[\s]*[\d]+")
+        self._score = pattern.sub("TuneTempo,{}".format(value), self._score)
 
     def save_tmp_file(self):
         if not self._filename or not self._score:
