@@ -7,6 +7,8 @@ from tkinter import filedialog, messagebox, simpledialog, PhotoImage
 class Application(tkinter.Frame):
     APP_HEIGHT = 520
     APP_WIDTH = 450
+    DISABLED_BACKGROUND = "#FFA8A4"
+    ENABLED_BACKGROUND = "#78FF85"
     # TODO better approach to trigger bpplayer
     BAGPIPE_PLAYER = r"C:\Program Files (x86)\Bagpipe Player\BGPlayer.exe"
 
@@ -30,6 +32,7 @@ class Application(tkinter.Frame):
         self.master.iconphoto(True, photo)
 
         self.winfo_toplevel().title("Bagpipe Writer")
+        self.master.resizable(0, 0)
 
         self.master.protocol("WM_DELETE_WINDOW", self.confirm_quit)
 
@@ -78,11 +81,13 @@ class Application(tkinter.Frame):
         file_change_actions = [
             {
                 "label": "Disable\nembellishments",
-                "action": ""
+                "action": "",
+                "background": self.DISABLED_BACKGROUND
             },
             {
                 "label": "Disable\nrepetition",
-                "action": ""
+                "action": "",
+                "background": self.DISABLED_BACKGROUND
             },
             {
                 "label": "Up all notes",
@@ -98,7 +103,8 @@ class Application(tkinter.Frame):
             },
             {
                 "label": "Replace all\nembellishments",
-                "action": ""
+                "action": "",
+                "background": self.ENABLED_BACKGROUND
             },
             {
                 "label": "Reset",
@@ -119,7 +125,7 @@ class Application(tkinter.Frame):
 
             button = tkinter.Button(master=frame, text=action["label"], command=action["action"], state=tkinter.DISABLED)
             button.pack(padx=5, pady=5, side=tkinter.LEFT)
-            self._action_buttons.append(button)
+            self._action_buttons.append({"object": button, "properties": {"background": "" if "background" not in action else action["background"]}})
             i += 1
 
     def upload_file(self):
@@ -130,7 +136,10 @@ class Application(tkinter.Frame):
             self.save_button["state"] = tkinter.NORMAL
             self.run_button["state"] = tkinter.NORMAL
             for button in self._action_buttons:
-                button["state"] = tkinter.NORMAL
+                button["object"]["state"] = tkinter.NORMAL
+                if button["properties"]["background"]:
+                    button["object"]["background"] = button["properties"]["background"]
+                    button["object"]["activebackground"] = button["properties"]["background"]
 
             self._original_score = self._bagpipe_writer.score = file.read()
             self._bagpipe_writer.filename = filename
