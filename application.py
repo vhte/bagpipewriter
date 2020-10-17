@@ -78,35 +78,43 @@ class Application(tkinter.Frame):
         about_button.place(relx=100, rely=10)
         about_button.pack(fill=tkinter.X)
 
+        # generates self._action_buttons
         file_change_actions = [
             {
+                "id": "disable_embellishments",
                 "label": "Disable\nembellishments",
                 "action": "",
-                "background": self.DISABLED_BACKGROUND
+                "initial_background": self.DISABLED_BACKGROUND
             },
             {
-                "label": "Disable\nrepetition",
+                "id": "toggle_repetition",
+                "label": "Toggle\nrepetition",
                 "action": self.toggle_repetition,
-                "background": self.DISABLED_BACKGROUND
+                "initial_background": self.DISABLED_BACKGROUND
             },
             {
+                "id": "up_all_notes",
                 "label": "Up all notes",
                 "action": ""
             },
             {
+                "id": "down_all_notes",
                 "label": "Down all notes",
                 "action": ""
             },
             {
+                "id": "change_tempo",
                 "label": "Change tempo",
                 "action": self.change_tempo
             },
             {
+                "id": "replace_all_embellishments",
                 "label": "Replace all\nembellishments",
                 "action": "",
-                "background": self.ENABLED_BACKGROUND
+                "initial_background": self.ENABLED_BACKGROUND
             },
             {
+                "id": "reset",
                 "label": "Reset",
                 "action": self.reset
             }
@@ -125,7 +133,7 @@ class Application(tkinter.Frame):
 
             button = tkinter.Button(master=frame, text=action["label"], command=action["action"], state=tkinter.DISABLED)
             button.pack(padx=5, pady=5, side=tkinter.LEFT)
-            self._action_buttons.append({"object": button, "properties": {"background": "" if "background" not in action else action["background"]}})
+            self._action_buttons.append({"id": action["id"], "object": button, "properties": {"background": "" if "initial_background" not in action else action["initial_background"]}})
             i += 1
 
     def upload_file(self):
@@ -160,10 +168,8 @@ class Application(tkinter.Frame):
             print("Error while retrieving tune tempo: {}".format(index_error))
             return
 
-        print('called change_tempo: {}'.format(tempo))
         new_value = simpledialog.askinteger("Change Tempo", "New value", parent=self, minvalue=0, maxvalue=200, initialvalue=tempo)
         if new_value:
-            print("New tempo is: {}".format(new_value))
             self._bagpipe_manager.tempo = new_value
 
             self.run_button.focus_set()
@@ -171,7 +177,7 @@ class Application(tkinter.Frame):
     def save(self):
         file = filedialog.asksaveasfile(filetypes=[('Bagpipe Player Files', "*.bww")], defaultextension=".bww", initialfile=self.filename["text"].replace(".bww", "_mod.bww"))
         if file:
-            file.write(self._bagpipe_manager.score)
+            file.write(self._bagpipe_manager.clean_content())
             file.close()
 
     def run(self):
@@ -183,4 +189,15 @@ class Application(tkinter.Frame):
             self._bagpipe_manager.score = self._original_score
 
     def toggle_repetition(self):
-        pass
+        button = self._get_button("toggle_repetition")
+        if button["object"]["background"] == self.ENABLED_BACKGROUND:
+            # Disable
+            self._bagpipe_manager.toggle_repetition(False)
+            button["object"]["background"] = self.DISABLED_BACKGROUND
+        elif button["object"]["background"] == self.DISABLED_BACKGROUND:
+            # Enable
+            self._bagpipe_manager.toggle_repetition(True)
+            button["object"]["background"] = self.ENABLED_BACKGROUND
+
+    def _get_button(self, _id):
+        return next(button for button in self._action_buttons if button["id"] == _id)
