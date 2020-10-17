@@ -2,7 +2,7 @@ import os
 import re
 
 
-class BagpipeWriter:
+class BagpipeManager:
     TMP_FILENAME = "tmp.bww"
     TUNE_TEMPO = "TuneTempo"
 

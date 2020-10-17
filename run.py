@@ -1,10 +1,10 @@
 import tkinter as tk
 from application import Application
-from bagpipewriter.bagpipewriter import BagpipeWriter
+from bagpipemanager.bagpipemanager import BagpipeManager
 
-# Bagpipe Writer
-bagpipe_writer = BagpipeWriter()
+# Bagpipe Manager
+bagpipe_manager = BagpipeManager()
 
 # Application
-app = Application(bagpipe_writer)
+app = Application(bagpipe_manager)
 app.mainloop()

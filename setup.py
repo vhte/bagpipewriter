@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup(
-    name="bagpipewriter",
+    name="bagpipemanager",
     version="1.0",
-    packages=["bagpipewriter"],
-    url="https://github.com/vhte/bagpipewriter",
+    packages=["bagpipemanager"],
+    url="https://github.com/vhte/bagpipemanager",
     license="MIT",
     author="Victor Torres",
     author_email="talk@victortorr.es",

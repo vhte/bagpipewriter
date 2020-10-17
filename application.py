@@ -12,8 +12,8 @@ class Application(tkinter.Frame):
     # TODO better approach to trigger bpplayer
     BAGPIPE_PLAYER = r"C:\Program Files (x86)\Bagpipe Player\BGPlayer.exe"
 
-    def __init__(self, bagpipe_writer):
-        self._bagpipe_writer = bagpipe_writer
+    def __init__(self, bagpipe_manager):
+        self._bagpipe_manager = bagpipe_manager
         self._action_buttons = []
         self._original_score = ""
 
@@ -31,7 +31,7 @@ class Application(tkinter.Frame):
         photo = tkinter.PhotoImage(file=self._base_folder + "favicon.png")
         self.master.iconphoto(True, photo)
 
-        self.winfo_toplevel().title("Bagpipe Writer")
+        self.winfo_toplevel().title("Bagpipe Manager")
         self.master.resizable(0, 0)
 
         self.master.protocol("WM_DELETE_WINDOW", self.confirm_quit)
@@ -86,7 +86,7 @@ class Application(tkinter.Frame):
             },
             {
                 "label": "Disable\nrepetition",
-                "action": "",
+                "action": self.toggle_repetition,
                 "background": self.DISABLED_BACKGROUND
             },
             {
@@ -141,9 +141,9 @@ class Application(tkinter.Frame):
                     button["object"]["background"] = button["properties"]["background"]
                     button["object"]["activebackground"] = button["properties"]["background"]
 
-            self._original_score = self._bagpipe_writer.score = file.read()
-            self._bagpipe_writer.filename = filename
-            self._bagpipe_writer.save_tmp_file()
+            self._original_score = self._bagpipe_manager.score = file.read()
+            self._bagpipe_manager.filename = filename
+            self._bagpipe_manager.save_tmp_file()
 
     def confirm_quit(self):
         if self._original_score:
@@ -155,7 +155,7 @@ class Application(tkinter.Frame):
 
     def change_tempo(self):
         try:
-            tempo = self._bagpipe_writer.tempo
+            tempo = self._bagpipe_manager.tempo
         except IndexError as index_error:
             print("Error while retrieving tune tempo: {}".format(index_error))
             return
@@ -164,20 +164,23 @@ class Application(tkinter.Frame):
         new_value = simpledialog.askinteger("Change Tempo", "New value", parent=self, minvalue=0, maxvalue=200, initialvalue=tempo)
         if new_value:
             print("New tempo is: {}".format(new_value))
-            self._bagpipe_writer.tempo = new_value
+            self._bagpipe_manager.tempo = new_value
 
             self.run_button.focus_set()
 
     def save(self):
         file = filedialog.asksaveasfile(filetypes=[('Bagpipe Player Files', "*.bww")], defaultextension=".bww", initialfile=self.filename["text"].replace(".bww", "_mod.bww"))
         if file:
-            file.write(self._bagpipe_writer.score)
+            file.write(self._bagpipe_manager.score)
             file.close()
 
     def run(self):
-        self._bagpipe_writer.save_tmp_file()
-        subprocess.Popen([self.BAGPIPE_PLAYER, self._bagpipe_writer.TMP_FILENAME])
+        self._bagpipe_manager.save_tmp_file()
+        subprocess.Popen([self.BAGPIPE_PLAYER, self._bagpipe_manager.TMP_FILENAME])
 
     def reset(self):
         if messagebox.askyesno("Confirm action", "Reset ALL modifications?"):
-            self._bagpipe_writer.score = self._original_score
+            self._bagpipe_manager.score = self._original_score
+
+    def toggle_repetition(self):
+        pass
