@@ -1,5 +1,4 @@
 import os
-import re
 
 from bagpipemanager.sheet import Sheet
 

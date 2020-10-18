@@ -27,7 +27,7 @@ class Sheet:
     def tempo(self, value):
         pattern = re.compile(r"TuneTempo[\s]*,[\s]*[\d]+")
         self._score = pattern.sub("TuneTempo,{}".format(value), self._score)
-        
+
     def toggle_repetition(self, disable):
         # TODO improve sub() use
         if disable is True:
