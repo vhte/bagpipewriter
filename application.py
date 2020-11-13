@@ -3,9 +3,11 @@ import tkinter
 import subprocess
 from tkinter import filedialog, messagebox, simpledialog, PhotoImage
 
+__version__ = "0.0.1a"
+
 
 class Application(tkinter.Frame):
-    APP_HEIGHT = 520
+    APP_HEIGHT = 505
     APP_WIDTH = 450
     DISABLED_BACKGROUND = "#FFA8A4"
     ENABLED_BACKGROUND = "#78FF85"
@@ -69,7 +71,7 @@ class Application(tkinter.Frame):
         fraser.pack()
 
         frame2 = tkinter.Frame(
-            master=self.master, height=50, bg="yellow", relief=tkinter.RAISED
+            master=self.master, bg="yellow", relief=tkinter.RAISED
         )
         frame2.pack(fill=tkinter.X)
         upload_button = tkinter.Button(master=frame2)
@@ -96,6 +98,9 @@ class Application(tkinter.Frame):
         about_button.place(relx=100, rely=10)
         about_button.pack(fill=tkinter.X)
 
+        separator = tkinter.Frame(height=2 ) # relief=tkinter.SUNKEN
+        separator.pack(fill=tkinter.X, padx=5, pady=5)
+
         # generates self._action_buttons
         file_change_actions = [
             {
@@ -110,11 +115,11 @@ class Application(tkinter.Frame):
                 "action": self.toggle_repetition,
                 "initial_background": self.DISABLED_BACKGROUND,
             },
-            {"id": "up_all_notes", "label": "Up all notes", "action": ""},
-            {"id": "down_all_notes", "label": "Down all notes", "action": ""},
+            {"id": "up_all_notes", "label": "Up all\nnotes", "action": ""},
+            {"id": "down_all_notes", "label": "Down all\nnotes", "action": ""},
             {
                 "id": "change_tempo",
-                "label": "Change tempo",
+                "label": "Change\ntempo",
                 "action": self.change_tempo,
             },
             {
@@ -126,11 +131,11 @@ class Application(tkinter.Frame):
             {"id": "reset", "label": "Reset", "action": self.reset},
         ]
 
-        i = 3
+        i = 4
         for action in file_change_actions:
-            if i == 3:
+            if i == 4:
                 frame = tkinter.Frame(
-                    master=self.master, relief=tkinter.RAISED, borderwidth=0
+                    master=self.master, relief=tkinter.RAISED, borderwidth=0, bg=None
                 )
                 frame.pack(padx=5, pady=5)
                 i = 0
@@ -154,6 +159,14 @@ class Application(tkinter.Frame):
                 }
             )
             i += 1
+
+        frame3 = tkinter.Frame(
+            master=self.master, bg=None, relief=tkinter.RAISED
+        )
+        frame3.pack(fill=tkinter.X)
+        version_label = tkinter.Label(master=frame3)
+        version_label["text"] = "{}: {}".format("version", __version__)
+        version_label.pack(side="right", padx=5, pady=0)
 
     def upload_file(self):
         file = filedialog.askopenfile(
