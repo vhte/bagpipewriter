@@ -1,6 +1,7 @@
 import os
 import tkinter
 import subprocess
+from webbrowser import open_new
 from tkinter import filedialog, messagebox, simpledialog, PhotoImage
 
 __version__ = "0.0.1a"
@@ -70,9 +71,7 @@ class Application(tkinter.Frame):
         fraser.photo = fraser_logo
         fraser.pack()
 
-        frame2 = tkinter.Frame(
-            master=self.master, bg="yellow", relief=tkinter.RAISED
-        )
+        frame2 = tkinter.Frame(master=self.master, bg="yellow", relief=tkinter.RAISED)
         frame2.pack(fill=tkinter.X)
         upload_button = tkinter.Button(master=frame2)
         upload_button["text"] = "Upload file ..."
@@ -98,7 +97,7 @@ class Application(tkinter.Frame):
         about_button.place(relx=100, rely=10)
         about_button.pack(fill=tkinter.X)
 
-        separator = tkinter.Frame(height=2 ) # relief=tkinter.SUNKEN
+        separator = tkinter.Frame(height=2)  # relief=tkinter.SUNKEN
         separator.pack(fill=tkinter.X, padx=5, pady=5)
 
         # generates self._action_buttons
@@ -160,9 +159,7 @@ class Application(tkinter.Frame):
             )
             i += 1
 
-        frame3 = tkinter.Frame(
-            master=self.master, bg=None, relief=tkinter.RAISED
-        )
+        frame3 = tkinter.Frame(master=self.master, bg=None, relief=tkinter.RAISED)
         frame3.pack(fill=tkinter.X)
         version_label = tkinter.Label(master=frame3)
         version_label["text"] = "{}: {}".format("version", __version__)
@@ -258,5 +255,29 @@ class Application(tkinter.Frame):
     def about(self):
         window = tkinter.Toplevel(self.master)
         window.title("About")
-        window.geometry("200x200")
-        tkinter.Label(window, text="Foo bar").pack()
+        window.geometry("340x100")
+        tkinter.Label(
+            window, text="{} {}".format("Bagpipe Manager", __version__)
+        ).place(x=10, y=10, anchor=tkinter.NW)
+
+        tkinter.Label(window, text="Victor Torres  -").place(
+            x=10, y=30, anchor=tkinter.NW
+        )
+
+        link1 = tkinter.Label(
+            window,
+            text="https://github.com/vhte/bagpipemanager",
+            fg="blue",
+            cursor="hand2",
+        )
+        link1.place(x=92, y=30, anchor=tkinter.NW)
+        link1.bind(
+            "<Button-1>", lambda e: open_new("https://github.com/vhte/bagpipemanager")
+        )
+
+        close_button = tkinter.Button(master=window, width=8, text="Close", command=window.destroy)
+        close_button.place(x=142, y=60, anchor=tkinter.NW)
+
+        window.resizable(0, 0)
+        window.focus_set()
+        window.grab_set()
