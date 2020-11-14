@@ -25,21 +25,7 @@ class Application(tkinter.Frame):
         self._base_folder = os.path.dirname(__file__) + "/"
         self.pack()
 
-        position_right = int(
-            self.winfo_screenwidth() / 2
-            - self.winfo_reqwidth() / 2
-            - self.APP_WIDTH / 2
-        )
-        position_down = int(
-            self.winfo_screenheight() / 2
-            - self.winfo_reqheight() / 2
-            - self.APP_HEIGHT / 2
-        )
-        self.master.geometry(
-            "{}x{}+{}+{}".format(
-                self.APP_WIDTH, self.APP_HEIGHT, position_right, position_down
-            )
-        )
+        self.master.geometry(self._center_window(self.APP_WIDTH, self.APP_HEIGHT))
 
         self.create_widgets()
 
@@ -73,24 +59,17 @@ class Application(tkinter.Frame):
 
         frame2 = tkinter.Frame(master=self.master, bg="yellow", relief=tkinter.RAISED)
         frame2.pack(fill=tkinter.X)
-        upload_button = tkinter.Button(master=frame2)
-        upload_button["text"] = "Upload file ..."
-        upload_button["command"] = self.upload_file
-        # upload_button.place(relx=0, rely=0)
+        upload_button = tkinter.Button(master=frame2, text="Upload file ...", command=self.upload_file)
         upload_button.pack(fill=tkinter.X)
-        # upload_button.place(x=100,y=100)
 
         self.save_button = tkinter.Button(
-            master=frame2, state=tkinter.DISABLED, command=self.save
+            master=frame2, state=tkinter.DISABLED, command=self.save, text="Save ..."
         )
-        self.save_button["text"] = "Save ..."
-        # .save_button.place(relx=100, rely=100)
         self.save_button.pack(fill=tkinter.X)
 
         self.run_button = tkinter.Button(
-            master=frame2, state=tkinter.DISABLED, command=self.run, fg="red"
+            master=frame2, state=tkinter.DISABLED, command=self.run, fg="red", text="Run"
         )
-        self.run_button["text"] = "Run"
         self.run_button.pack(fill=tkinter.X)
 
         about_button = tkinter.Button(master=frame2, text="About", command=self.about)
@@ -255,7 +234,9 @@ class Application(tkinter.Frame):
     def about(self):
         window = tkinter.Toplevel(self.master)
         window.title("About")
-        window.geometry("340x100")
+        window_width = 340
+        window_height = 100
+        window.geometry(self._center_window(window_width, window_height))
         tkinter.Label(
             window, text="{} {}".format("Bagpipe Manager", __version__)
         ).place(x=10, y=10, anchor=tkinter.NW)
@@ -281,3 +262,17 @@ class Application(tkinter.Frame):
         window.resizable(0, 0)
         window.focus_set()
         window.grab_set()
+
+    def _center_window(self, window_width, window_height):
+        position_right = int(
+            self.winfo_screenwidth() / 2
+            - self.winfo_reqwidth() / 2
+            - window_width / 2
+        )
+        position_down = int(
+            self.winfo_screenheight() / 2
+            - self.winfo_reqheight() / 2
+            - window_height / 2
+        )
+
+        return "{}x{}+{}+{}".format(window_width, window_height, position_right, position_down)

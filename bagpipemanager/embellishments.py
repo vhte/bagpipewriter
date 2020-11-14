@@ -1,6 +1,7 @@
-GRACE_NOTES = ["ag", "bg", "cg", "dg", "eg", "fg", "gg", "tg"]
-STRIKES = ["strlg", "strla", "strb", "strc", "strd", "stre", "strf", "strhg", "strha"]
-DOUBLINGS = ["[0,2]dblg", "[0,2]dbla", "[0,2]dbb"] # TODO finish with regex
+GRACE_NOTES = "[1]g"
+STRIKES = "str[1,2]"
+DOUBLINGS = "[0,1]db[1,2]"
+GRACE_NOTES_STRIKES = "[1,2]st[1,2]"
 
 
 class Embellishments:
