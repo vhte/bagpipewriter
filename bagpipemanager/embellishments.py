@@ -13,3 +13,18 @@ class Embellishments:
 
     def __init__(self):
         pass
+
+    def get_all(self):
+        return [
+            self.GRACE_NOTES,
+            self.DOUBLINGS,
+            self.GRACE_NOTES_STRIKES_STRIKES,
+            self.PELES,
+            self.BIRLS,
+            self.D_THROWS,
+            self.GRIPS,
+            self.TAORLUATHS,
+            self.BUBBLYS,
+            self.ACCIDENTALS_NATURAL,
+            self.ACCIDENTALS_SHARP,
+        ]

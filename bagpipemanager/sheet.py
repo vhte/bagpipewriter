@@ -31,7 +31,8 @@ class Sheet:
         self._score = pattern.sub("TuneTempo,{}".format(value), self._score)
 
     def toggle_embellishments(self, disable):
-        pass
+        embellishments = self._embellishments.get_all()
+        # re.compile
 
     def toggle_repetition(self, disable):
         # TODO improve sub() use
