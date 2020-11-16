@@ -82,9 +82,9 @@ class Application(tkinter.Frame):
         # generates self._action_buttons
         file_change_actions = [
             {
-                "id": "disable_embellishments",
-                "label": "Disable\nembellishments",
-                "action": "",
+                "id": "toggle_embellishments",
+                "label": "Toggle\nembellishments",
+                "action": self.toggle_embellishments,
                 "initial_background": self.DISABLED_BACKGROUND,
             },
             {
@@ -214,6 +214,19 @@ class Application(tkinter.Frame):
     def reset(self):
         if messagebox.askyesno("Confirm action", "Reset ALL modifications?"):
             self._bagpipe_manager.score = self._original_score
+
+    def toggle_embellishments(self):
+        button = self._get_button("toggle_embellishments")
+        if button["object"]["background"] == self.ENABLED_BACKGROUND:
+            # Disable
+            self._bagpipe_manager.toggle_embellishments(False)
+            button["object"]["background"] = self.DISABLED_BACKGROUND
+            button["object"]["activebackground"] = self.DISABLED_BACKGROUND
+        else:
+            # Enable
+            self._bagpipe_manager.toggle_embellishments(True)
+            button["object"]["background"] = self.ENABLED_BACKGROUND
+            button["object"]["activebackground"] = self.ENABLED_BACKGROUND
 
     def toggle_repetition(self):
         button = self._get_button("toggle_repetition")

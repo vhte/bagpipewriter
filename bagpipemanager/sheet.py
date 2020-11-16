@@ -1,4 +1,5 @@
 import re
+from bagpipemanager.embellishments import Embellishments
 
 
 class Sheet:
@@ -7,6 +8,7 @@ class Sheet:
     def __init__(self, score="", tempo=0):
         self._score = score
         self._tempo = tempo
+        self._embellishments = Embellishments()
 
     @property
     def score(self):
@@ -27,6 +29,9 @@ class Sheet:
     def tempo(self, value):
         pattern = re.compile(r"TuneTempo[\s]*,[\s]*[\d]+")
         self._score = pattern.sub("TuneTempo,{}".format(value), self._score)
+
+    def toggle_embellishments(self, disable):
+        pass
 
     def toggle_repetition(self, disable):
         # TODO improve sub() use

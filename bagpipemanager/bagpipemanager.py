@@ -42,6 +42,9 @@ class BagpipeManager:
         with open(self.TMP_FILENAME, "w") as file:
             file.write(self._sheet.score)
 
+    def toggle_embellishments(self, disable):
+        self._sheet.toggle_embellishments(disable)
+
     def toggle_repetition(self, disable):
         self._sheet.toggle_repetition(disable)
 
