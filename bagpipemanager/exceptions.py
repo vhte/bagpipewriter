@@ -1,0 +1,2 @@
+class BagpipeManagerException(BaseException):
+    pass
