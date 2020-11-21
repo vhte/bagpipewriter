@@ -1,6 +1,7 @@
 import os
 
 from bagpipemanager.sheet import Sheet
+from bagpipemanager.exceptions import BagpipeManagerException
 
 
 class BagpipeManager:
@@ -9,7 +10,7 @@ class BagpipeManager:
     def __init__(self):
         self._filename = ""
 
-        self._sheet = Sheet()
+        self._sheet = None
 
     @property
     def filename(self):
@@ -25,7 +26,7 @@ class BagpipeManager:
 
     @score.setter
     def score(self, content):
-        self._sheet.score = content
+        self._sheet = Sheet(content)
 
     @property
     def tempo(self):
@@ -43,7 +44,10 @@ class BagpipeManager:
             file.write(self._sheet.score)
 
     def toggle_embellishments(self, disable):
-        self._sheet.toggle_embellishments(disable)
+        try:
+            self._sheet.toggle_embellishments(disable)
+        except BagpipeManagerException as e:
+            pass  # TODO smooth passage to application
 
     def toggle_repetition(self, disable):
         self._sheet.toggle_repetition(disable)
