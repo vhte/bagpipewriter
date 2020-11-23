@@ -45,15 +45,14 @@ class Sheet:
     def toggle_repetition(self, disable):
         # TODO improve sub() use like toggle_embellishments()
         if disable is True:
-            pattern = re.compile(r"(I!'')")
-            self._score = pattern.sub("I!\"'''\"", self._score)
-            pattern = re.compile(r"(''!I)")
-            self._score = pattern.sub("\"'''\"\n!I", self._score)
+            self._score = re.sub(r"(I!'')", "I!\"'''\"", self._score)
+            self._score = re.sub(r"(''!I)", "\"'''\"\n!I", self._score)
         else:
-            pattern = re.compile(r"(I!\"'''\")")
-            self._score = pattern.sub("I!''", self._score)
-            pattern = re.compile(r"(\"'''\"\n!I)")
-            self._score = pattern.sub("''!I", self._score)
+            self._score = re.sub(r"(I!\"'''\")", "I!''", self._score)
+            self._score = re.sub(r"(\"'''\"\n!I)", "''!I", self._score)
+
+    def jump_notes(self, going_up):
+        raise BagpipeManagerException("HighA already reached in the tune.")
 
     def clean_content(self):
         pattern = re.compile(r"(\"'''\"[\n]{0,1})")

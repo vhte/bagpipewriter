@@ -8,8 +8,8 @@ class Embellishments:
     GRIPS = r"([a-z]{0,1}grp[a-z]{0,2})"
     TAORLUATHS = r"(tar[a-z]{0,1})"
     BUBBLYS = r"([a-z]{0,1}bubly)"
-    ACCIDENTALS_NATURAL = r"(natural[a-z]{1,2})"
-    ACCIDENTALS_SHARP = r"(sharp[a-z]{1,2})"
+    # ACCIDENTALS_NATURAL = r"(natural[a-z]{1,2})"
+    # ACCIDENTALS_SHARP = r"(sharp[a-z]{1,2})"
 
     def __init__(self):
         pass
@@ -25,6 +25,4 @@ class Embellishments:
             self.GRIPS,
             self.TAORLUATHS,
             self.BUBBLYS,
-            self.ACCIDENTALS_NATURAL,
-            self.ACCIDENTALS_SHARP,
         ]

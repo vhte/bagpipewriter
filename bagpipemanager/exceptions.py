@@ -1,2 +1,2 @@
 class BagpipeManagerException(BaseException):
-    pass
+    """Used to trigger specific errors of .bww templates"""

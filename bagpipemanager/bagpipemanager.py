@@ -44,13 +44,16 @@ class BagpipeManager:
             file.write(self._sheet.score)
 
     def toggle_embellishments(self, disable):
-        try:
-            self._sheet.toggle_embellishments(disable)
-        except BagpipeManagerException as e:
-            pass  # TODO smooth passage to application
+        self._sheet.toggle_embellishments(disable)
 
     def toggle_repetition(self, disable):
         self._sheet.toggle_repetition(disable)
+
+    def jump_notes(self, going_up):
+        try:
+            self._sheet.jump_notes(going_up)
+        except BagpipeManagerException as be:
+            return str(be)
 
     def clean_content(self):
         return self._sheet.clean_content()

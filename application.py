@@ -83,17 +83,17 @@ class Application(tkinter.Frame):
         file_change_actions = [
             {
                 "id": "toggle_embellishments",
-                "label": "Toggle\nembellishments",
+                "label": "Embellishments\nOFF",
                 "action": self.toggle_embellishments,
                 "initial_background": self.DISABLED_BACKGROUND,
             },
             {
                 "id": "toggle_repetition",
-                "label": "Toggle\nrepetition",
+                "label": "Repetition\nOFF",
                 "action": self.toggle_repetition,
                 "initial_background": self.DISABLED_BACKGROUND,
             },
-            {"id": "up_all_notes", "label": "Up all\nnotes", "action": ""},
+            {"id": "up_all_notes", "label": "Up all\nnotes", "action": self.up_all_notes},
             {"id": "down_all_notes", "label": "Down all\nnotes", "action": ""},
             {
                 "id": "change_tempo",
@@ -198,6 +198,7 @@ class Application(tkinter.Frame):
             self.run_button.focus_set()
 
     def save(self):
+        # TODO clean up file to remove comments, possibly another method of BagpipeManager
         file = filedialog.asksaveasfile(
             filetypes=[("Bagpipe Player Files", "*.bww")],
             defaultextension=".bww",
@@ -221,11 +222,13 @@ class Application(tkinter.Frame):
             # Disable
             self._bagpipe_manager.toggle_embellishments(False)
             button["object"]["background"] = self.DISABLED_BACKGROUND
+            button["object"]["text"] = "Embellishments\nOFF"
             button["object"]["activebackground"] = self.DISABLED_BACKGROUND
         else:
             # Enable
             self._bagpipe_manager.toggle_embellishments(True)
             button["object"]["background"] = self.ENABLED_BACKGROUND
+            button["object"]["text"] = "Embellishments\nON"
             button["object"]["activebackground"] = self.ENABLED_BACKGROUND
 
     def toggle_repetition(self):
@@ -234,12 +237,22 @@ class Application(tkinter.Frame):
             # Disable
             self._bagpipe_manager.toggle_repetition(False)
             button["object"]["background"] = self.DISABLED_BACKGROUND
+            button["object"]["text"] = "Repetition\nOFF"
             button["object"]["activebackground"] = self.DISABLED_BACKGROUND
         elif button["object"]["background"] == self.DISABLED_BACKGROUND:
             # Enable
             self._bagpipe_manager.toggle_repetition(True)
             button["object"]["background"] = self.ENABLED_BACKGROUND
+            button["object"]["text"] = "Repetition\nON"
             button["object"]["activebackground"] = self.ENABLED_BACKGROUND
+
+    def up_all_notes(self):
+        alert = self._bagpipe_manager.jump_notes(True)
+        if alert:
+            messagebox.showwarning("Warning", alert)
+
+    def down_all_notes(self):
+        self._bagpipe_manager.jump_notes(False)
 
     def _get_button(self, _id):
         return next(button for button in self._action_buttons if button["id"] == _id)
