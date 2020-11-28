@@ -1,6 +1,7 @@
 import re
 from bagpipemanager.embellishments import Embellishments
 from bagpipemanager.exceptions import BagpipeManagerException
+from bagpipemanager.notes import Notes
 
 
 class Sheet:
@@ -51,14 +52,31 @@ class Sheet:
             self._score = re.sub(r"(\"'''\"\n!I)", "''!I", self._score)
 
     def jump_notes(self, going_up):
+        notes = Notes()
+        all_notes = notes.get_all()
         if going_up:
-            pattern = re.compile(r"HA[r,l]?_[0-9]{0,2}")
-            if pattern.search(self._score):
+            if re.search(notes.HIGH_A + r"[r,l]?_[0-9]{0,2}", self._score):
                 raise BagpipeManagerException("HighA already reached in the tune.")
+
+            sequent = None
+            all_notes.reverse()
+            for note in all_notes:
+                if sequent:
+                    self._score = re.sub(
+                        note + r"([r,l]?_[0-9]{0,2})", sequent + r"\1", self._score
+                    )
+                sequent = note
         else:
-            pattern = re.compile(r"LG[r,l]?_[0-9]{0,2}")
-            if pattern.search(self._score):
+            if re.search(notes.LOW_G + r"[r,l]?_[0-9]{0,2}", self._score):
                 raise BagpipeManagerException("LowG already reached in the tune.")
+
+            precedent = None
+            for note in all_notes:
+                if precedent:
+                    self._score = re.sub(
+                        note + r"([r,l]?_[0-9]{0,2})", precedent + r"\1", self._score
+                    )
+                precedent = note
 
     def clean_content(self):
         pattern = re.compile(r"(\"'''\"[\n]?)")

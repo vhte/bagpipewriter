@@ -94,7 +94,7 @@ class Application(tkinter.Frame):
                 "initial_background": self.DISABLED_BACKGROUND,
             },
             {"id": "up_all_notes", "label": "Up all\nnotes", "action": self.up_all_notes},
-            {"id": "down_all_notes", "label": "Down all\nnotes", "action": ""},
+            {"id": "down_all_notes", "label": "Down all\nnotes", "action": self.down_all_notes},
             {
                 "id": "change_tempo",
                 "label": "Change\ntempo",
@@ -252,7 +252,9 @@ class Application(tkinter.Frame):
             messagebox.showwarning("Warning", alert)
 
     def down_all_notes(self):
-        self._bagpipe_manager.jump_notes(False)
+        alert = self._bagpipe_manager.jump_notes(False)
+        if alert:
+            messagebox.showwarning("Warning", alert)
 
     def _get_button(self, _id):
         return next(button for button in self._action_buttons if button["id"] == _id)
