@@ -79,8 +79,20 @@ class Sheet:
                 precedent = note
 
     def clean_content(self):
-        pattern = re.compile(r"(\"'''\"[\n]?)")
-        return pattern.sub("", self._score)
+        score = self.score
+
+        embellishments = Embellishments()
+
+        def make_group(item):
+            return item.replace("(", '("').replace(")", '")')
+
+        embellishment_rules = list(map(make_group, embellishments.get_all()))
+        repetition_rule = [r"(\"'''\"[\n]?)"]
+
+        for rule in repetition_rule + embellishment_rules:
+            score = re.sub(rule, "", score)
+
+        return score
 
     def _separate_header_tune(self, content):
         """Divides the sheet content into header and tune"""

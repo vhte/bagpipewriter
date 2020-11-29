@@ -104,7 +104,6 @@ class Application(tkinter.Frame):
                 "id": "replace_all_embellishments",
                 "label": "Replace all\nembellishments",
                 "action": "",
-                "initial_background": self.ENABLED_BACKGROUND,
             },
             {"id": "reset", "label": "Reset", "action": self.reset},
         ]
@@ -198,7 +197,6 @@ class Application(tkinter.Frame):
             self.run_button.focus_set()
 
     def save(self):
-        # TODO clean up file to remove comments, possibly another method of BagpipeManager
         file = filedialog.asksaveasfile(
             filetypes=[("Bagpipe Player Files", "*.bww")],
             defaultextension=".bww",
