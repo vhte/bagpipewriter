@@ -100,11 +100,6 @@ class Application(tkinter.Frame):
                 "label": "Change\ntempo",
                 "action": self.change_tempo,
             },
-            {
-                "id": "replace_all_embellishments",
-                "label": "Replace all\nembellishments",
-                "action": "",
-            },
             {"id": "reset", "label": "Reset", "action": self.reset},
         ]
 
